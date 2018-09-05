@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+	
+  
+	<form name="ms-partner-customer-form"  title="Customer" model="com.axelor.apps.base.db.Partner"
+		  onNew="action-group-base-partner-onnew"
+		  onLoad="action-group-partner-onload" width="large">
+		<panel-include view="ms-partner-form" />
+	</form>
+
+	<form name="ms-partner-form"  title="Partner" model="com.axelor.apps.base.db.Partner"
+		  onNew="action-group-base-partner-onnew"
+		  onLoad="action-group-partner-onload"
+		  onSave="action-partner-iban-check-on-save" width="large">
+        <toolbar>
+            <button name="showMapBtn" title="Map" icon="fa-map-marker" onClick="action-partner-method-show-on-map" readonlyIf="!id"/>
+        </toolbar>
+		<menubar>
+            <menu title="Reports" icon="fa-files-o" showTitle="true">
+				<item title="Envelope" action="save,action-partner-method-show-envelope" readonlyIf="id == null"/>
+				<item title="Customer Situation" action="save,action-partner-method-show-client-situation" readonlyIf="id == null" showIf="isCustomer == true"  if-module="axelor-account"/>
+			</menu>
+		</menubar>
+		<panel-include view="incl-event-actions-partner-form" />  
+  		
+  		
+  		
+  		<panel name="main" >
+			<panel colSpan="12">
+				<panel name="mainLeft" colSpan="4">
+					<field name="partnerSeq" showTitle="false" colSpan="12" css="label-bold bold large"/>
+					<panel colSpan="12">
+						<button name="showAllInvoices" colSpan="4" title="Factures"  onClick="save,action-partner-view-partner-invoice"/>
+        				<button name="showUnpaidInvoice" colSpan="4" title="Factures Impayées"  onClick="save,action-partner-view-show-unpaid-invoice"/>
+						<spacer colSpan="4"/>
+					</panel>
+					<button if="__config__.app.isApp('account')" name="$balance" title="Balance" colSpan="8" icon="fa-balance-scale" onClick="action-partner-view-show-move-lines" widget="info-button" showIf="id"/>
+					<static name="duplicatePartnerText" hidden="true" colSpan="12"><![CDATA[<span class='label label-warning'>There is already a partner with this name.</span>]]></static>
+					<panel>
+						<field name="isProspect"  colSpan="4" widget="InlineCheckbox" hideIf="isContact || $readonly()" onChange="action-partner-attrs-unset-customer,action-partner-record-unset-factor"/>
+						<field name="isCustomer" colSpan="4" widget="InlineCheckbox" hideIf="isContact || $readonly() || isEmployee" onChange="action-partner-record-invoices-copy-default-value,action-partner-account-attrs-hide-customer-account,action-partner-attrs-unset-prospect,action-partner-record-unset-factor"/>
+						<field name="isSupplier" colSpan="4" widget="InlineCheckbox" hideIf="isContact || $readonly() || isEmployee" onChange="action-partner-account-attrs-hide-supplier-account,action-partner-record-unset-factor"/>
+               			<field name="isCarrier" colSpan="4" widget="InlineCheckbox" hideIf="isContact || $readonly() || isEmployee" if="__config__.app.isApp('stock')" onChange="action-partner-record-unset-factor" />
+               			<field name="isFactor" colSpan="4" widget="InlineCheckbox" hideIf="isContact || $readonly() || isEmployee" if="__config__.app.getApp('account')?.manageFactors" onChange="action-partner-record-set-factor" />
+						<field name="isEmployee" colSpan="4" widget="InlineCheckbox" hideIf="isContact || $readonly() || isCustomer || !isSupplier || partnerTypeSelect != 2" onChange="action-partner-account-attrs-hide-employee-account,action-partner-record-unset-factor"/>
+					</panel>
+					<field name="$viewerPartnerType" showTitle="false" hideIf="isContact || !$readonly()" colSpan="12">
+						<viewer depends="isProspect,isEmployee,isCustomer,isSupplier,isFactor,isCarrier">
+							<![CDATA[
+								<h4 style="text-align: left;">
+									<span class="label label-default" style="background-color: #FC6355; margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.isProspect" x-translate>Prospect</span>
+									<span class="label label-default" style="background-color: #5680FC; margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.isEmployee" x-translate>Employee</span>
+									<span class="label label-default" style="background-color: #EF9D3F; margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.isCustomer" x-translate>Customer</span>
+									<span class="label label-default" style="background-color: #7D54FC; margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.isSupplier" x-translate>Supplier</span>
+									<span class="label label-default" style="background-color: #54FC62; margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.isFactor" x-translate>Factor</span>
+									<span class="label label-default" style="background-color: #FF0000; margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.isCarrier" x-translate>Carrier</span>
+								</h4>
+	                        ]]>
+						</viewer>
+					</field>
+					<field name="language" colSpan="6" canEdit="false"/>
+					<field name="companySet" colSpan="6" widget="TagSelect" canNew="false" form-view="company-form" grid-view="company-grid"/>				
+				</panel><!-- mainLeft -->
+				
+				<panel name="mainRight" colSpan="8">
+					<field name="fullName" colSpan="12" showTitle="false" css="label-bold bold large">
+						<hilite strong="true" if="true" color="primary"/>
+						<editor x-show-titles="false">
+		  					<field name="partnerTypeSelect" showTitle="false" onChange="action-partner-partner-type-select-change,action-partner-method-set-social-network-url,action-partner-record-employee" colSpan="12" placeholder="Partner Type"/>
+	            			<panel showIf="partnerTypeSelect == 1" colSpan="12">
+								<field name="name" showTitle="false" css="highlight" placeholder="Name" onChange="action-partner-method-check-name,action-partner-record-full-name,action-partner-method-set-social-network-url" colSpan="12"/>
+		  					</panel>
+	            			<panel showIf="partnerTypeSelect == 2" colSpan="12">
+	              				<field name="titleSelect" showTitle="false" placeholder="Civility" colSpan="2"/>
+	              				<field name="name" showTitle="false" css="highlight" placeholder="Name" onChange="action-partner-method-check-name,action-partner-record-full-name,action-partner-method-set-social-network-url" colSpan="5"/>
+	              				<field name="firstName" showTitle="false" css="highlight" placeholder="First name" onChange="action-partner-method-check-name,action-partner-record-full-name,action-partner-method-set-social-network-url" colSpan="5"/>
+	            			</panel>
+						</editor>
+					</field>
+					<panel name="postalAddresses" title="Postal addresses" colSpan="12" hideIf="isEmployee">
+						<field name="partnerAddressList" colSpan="12" form-view="partner-address-form" grid-view="partner-address-grid" showTitle="false">
+							<editor layout="table" x-show-titles="false" >
+								<label title="The following address is invalid. Please use '+' button to create a new one :" colSpan="12" css="label-bold" name="addressHelper" hidden="true" showIf="address == null || address.addressL4 == null" />
+								<field name="address.addressL4" hidden="true" colSpan="12"/>
+								<field name="address" form-view="address-form" grid-view="address-grid" colSpan="3" canNew="true"/>
+								<field name="isInvoicingAddr" widget="toggle" x-icon="fa-list-alt" colSpan="1" hideIf="$readonly()"/>
+								<field name="isDeliveryAddr" widget="toggle" x-icon="fa-shopping-cart" colSpan="1" hideIf="$readonly()" />
+								<field name="isDefaultAddr" widget="toggle" x-icon="fa-star-o" colSpan="1" hideIf="$readonly()"  />
+							</editor>
+						</field>
+					</panel>
+					<panel name="generalContactDetails" title="General contact details" colSpan="12">
+						<field name="fixedPhone" colSpan="3" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
+						<field name="fax" colSpan="3" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
+						<field name="mobilePhone" colSpan="3" hideIf="partnerTypeSelect == 1" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
+						<field name="emailAddress" canSelect="false" colSpan="6" form-view="email-address-simple-form" x-show-icons="false">
+							<editor x-show-titles="false">
+								<field name="address" colSpan="12" placeholder="whatever@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
+							</editor>
+						</field>
+						<field name="webSite" placeholder="www.url.com" pattern="([^\s]+\.[^\s]+\.[^\s]{2,})"/>
+					</panel>
+				</panel>
+			</panel>
+  		</panel>
+  		
+  		<!-- Panel des contacts de ll'entreprise -->
+  		<panel-related name="Contacts" field="contactPartnerSet" hideIf="!id || isContact || partnerTypeSelect == 2" domain="self.isContact = 'true'" form-view="partner-contact-form" grid-view="partner-contact-grid" />
+		
+		<!-- Panel Facturation & Compta -->
+  		<panel>
+			<panel title= "Facturation" colSpan="12">
+				<field name="invoiceSendingFormatSelect" colSpan="2" title = "Envoi Facture"  hideIf="isEmployee"/>
+				<field name="invoicesCopySelect" colSpan="2" hideIf="!isCustomer || isEmployee"/>
+				<field name="paymentCondition" colSpan="2" canEdit="false" grid-view="payment-condition-grid" form-view="payment-condition-form" hideIf="isEmployee"/>
+	        	<field name="currency"  colSpan="2" canEdit="false" requiredIf="!isContact &amp;&amp; partnerTypeSelect != 2" form-view="currency-form" grid-view="currency-grid"/>
+	        	<field name="fiscalPosition" colSpan="2" canEdit="false" form-view="fiscal-position-form" grid-view="fiscal-position-grid" onChange="action-partner-attrs-show-specific-tax-note"/>
+			</panel>
+			
+			<panel title= "Comptabilité" colSpan="12">
+				<panel-related if-module="axelor-account" if="__config__.app.isApp('account')" field="accountingSituationList" title="Accounting situation" hideIf="isContact" colSpan="12" grid-view="accounting-situation-partner-grid" form-view="accounting-situation-partner-form" onSelect="action-account-accounting-situation-method-update-customer-account"/>
+			</panel>  		
+  		</panel>
+		
+  	</form>
+  
+  
+</object-views>

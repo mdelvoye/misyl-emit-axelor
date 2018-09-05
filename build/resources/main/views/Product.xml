@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+	<form id= "ms-product-form" name="ms-product-form"  title="Produit" model="com.axelor.apps.base.db.Product" 
+		width="large" onNew="ms-action-group-base-product-onnew">
+		
+		<panel name="general" colSpan="12">
+			<panel colSpan="12">
+    			<field name="fullName" showTitle="false" css="label-bold bold large" colSpan="8">
+        			<editor x-show-titles="false">
+          				<field name="code" x-bind="{{code|unaccent|uppercase}}" showTitle="false" colSpan="3" css="label-bold bold large" placeholder="Code" />
+          				<field name="name" showTitle="false" colSpan="9" css="label-bold bold large" placeholder="Name"/>
+        			</editor>
+      			</field>
+      			<spacer colSpan="4"/>
+    		</panel>
+    		
+    		
+	    	<panel colSpan="3">
+				<field name="picture" showTitle="false" colSpan="12" widget="Image">
+					<viewer>
+						<![CDATA[
+	  						<img ng-show="record.picture" ng-src="{{$image('picture', 'content')}}" />
+	     					<img ng-show="!record.picture" src="img/product-default.png" />
+						]]>
+					</viewer>
+				</field>
+				<field name="barCode" showTitle="false" colSpan="12" widget="Image" if="__config__.app.getApp('base').getActivateBarCodeGeneration()"/>
+				<field name="sequence" showIf="sequence.length &gt; 0" colSpan="12"/>
+			</panel>
+    	
+	    	<panel colSpan="9">
+	    		<field name="salePrice" colSpan="2" widget="Decimal" x-scale="2" x-precision="20"/>
+	    		<field name="purchasePrice" colSpan="2" widget="Decimal" x-scale="2" x-precision="20"/>
+	    		<field name="productEcoTax" colSpan="2" widget="Decimal" x-scale="2" x-precision="20"/>
+	    		<field name="unit" canEdit="false" colSpan="2" form-view="unit-form" grid-view="unit-grid"/>
+	    		<field name="productTypeSelect" colSpan="2" onChange="action-group-base-product-producttype-onchange"/>
+	    		<spacer colSpan="2"/>
+	    	</panel>
+	    	
+		</panel><!-- General -->
+		
+		
+		<panel-tabs>
+    		<panel name="description" title="Description" showTitle="false">
+    			<panel name="description" title="Description" colSpan="12">
+	        		<field name="description" showTitle="false" colSpan="12" widget="html"/>
+	      		</panel>
+	      		<panel name="internalDescription" title="Internal description" colSpan="12">
+	        		<field name="internalDescription" showTitle="false" colSpan="12" widget="html"/>
+	      		</panel>
+			</panel>
+			<panel name="accounting" title="Comptabilité" showTitle="false">
+				<panel-related field="accountManagementList" form-view="account-management-product-form" grid-view="account-management-product-grid" domain="self.typeSelect = 1" title="Accounting" showTitle="false" colSpan="12"/>
+			</panel>
+			<panel name="other" title="Infos Complémentaires" showTitle="false">
+				<panel colSpan="6" title="Ventes">
+					<field name="sellable" colSpan="12" widget="InlineCheckbox"/>
+					<field name="saleCurrency" colSpan="12" canEdit="false"   form-view="currency-form" grid-view="currency-grid"/>
+    			</panel>
+				<panel colSpan="6" title="Achat">
+					<field name="purchasable" colSpan="12" widget="InlineCheckbox"/>
+					<field name="purchaseCurrency" colSpan="12" canEdit="false" showIf="purchasable" form-view="currency-form" grid-view="currency-grid"/>
+				
+					<field 	name="defaultSupplierPartner" canEdit="false" showIf="purchasable" colSpan="12" domain="self.isContact = false AND self.isSupplier = true" 
+				   		form-view="partner-form" grid-view="partner-grid"/>
+					<field name="supplierDeliveryTime" showIf="purchasable" colSpan="12"/>
+				</panel>
+			</panel>
+		</panel-tabs>
+		
+	</form>
+
+	
+	
+	<action-group name="ms-action-group-base-product-onnew">
+		<action name="ms-action-product-record-set-default"/>
+ 	</action-group>
+  
+  	<action-record name="ms-action-product-record-set-default" model="com.axelor.apps.base.db.Product">
+		<field name="saleCurrency" expr="#{__user__.activeCompany.currency}"/>
+		<field name="purchaseCurrency" expr="#{__user__.activeCompany.currency}"/>
+		<field name="salesUnit" expr="eval: __repo__(Unit).find(1)"/>
+		<field name="unit" expr="eval: __repo__(Unit).find(1)"/>
+		<field name="productTypeSelect" expr="eval: 'storable' "/>
+  	</action-record>
+
+  
+</object-views>
+ 
+ 
+  
