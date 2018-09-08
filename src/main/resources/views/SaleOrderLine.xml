@@ -11,7 +11,7 @@
 			<field name="productName" colSpan="9" title="Title"/>
 			<panel colSpan="3">
 				<field name="typeSelect" onChange="action-sale-order-line-method-empty-line" selection-in="[0,1]" if="!(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" colSpan="12"/>
-				<field name="typeSelect" onChange="action-sale-order-line-method-empty-line,action-sale-order-attrs-hide-ati" selection-in="[0,1,2]" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" colSpan="12"/>
+				<field name="typeSelect" onChange="action-sale-order-line-method-empty-line,ms-action-sale-order-attrs-hide-ati" selection-in="[0,1,2]" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" colSpan="12"/>
 			</panel>
 		</panel>
  
@@ -39,7 +39,7 @@
 				<field name="product" canEdit="false" onChange="ms-action-group-sale-saleorderline-product-onchange,action-sale-order-line-compute-total-pack,action-method-sale-order-line-available-stock" onSelect="action-sale-order-line-attrs-domain-product" form-view="product-form" grid-view="product-grid"/>
 				<panel colSpan="6">
 					<field name="typeSelect" onChange="action-sale-order-line-method-empty-line" selection-in="[0,1]" if="!(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" colSpan="12"/>
-					<field name="typeSelect" onChange="action-sale-order-line-method-empty-line,action-sale-order-attrs-hide-ati" selection-in="[0,1,2]" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" colSpan="12"/>
+					<field name="typeSelect" onChange="action-sale-order-line-method-empty-line,ms-action-sale-order-attrs-hide-ati" selection-in="[0,1,2]" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" colSpan="12"/>
 				</panel>
 				<field name="productName" colSpan="12"/>
 				<panel colSpan="12">
@@ -163,6 +163,12 @@
 		<action name="action-sale-order-line-method-check-qty"/>
     	-->
     </action-group>
+    <action-attrs name="ms-action-sale-order-attrs-hide-ati">
+		<attribute name="hidden" for="exTaxTotal" expr="eval: _parent.inAti || typeSelect == 2" if="_parent?._model == 'com.axelor.apps.sale.db.SaleOrder'"/>
+		<attribute name="hidden" for="inTaxTotal" expr="eval: _parent.inAti || typeSelect == 2" if="_parent?._model == 'com.axelor.apps.sale.db.SaleOrder'"/>
+		<attribute name="hidden" for="exTaxTotal" expr="eval: saleOrder?.inAti || typeSelect == 2" if="saleOrder != null &amp;&amp; _parent?._model != 'com.axelor.apps.sale.db.SaleOrder'" />
+		<attribute name="hidden" for="inTaxTotal" expr="eval: !saleOrder?.inAti || typeSelect == 2" if="saleOrder != null &amp;&amp; _parent?._model != 'com.axelor.apps.sale.db.SaleOrder'" />
+	</action-attrs>
 	
 	<action-method name="ms-action-sale-order-line-method-get-product-information">
 		<call class="com.axelor.apps.misyl.custom.web.MisylSaleOrderLineController" method="getProductInformation"/>

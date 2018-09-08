@@ -21,7 +21,9 @@ import com.axelor.app.AxelorModule;
 import com.axelor.apps.misyl.custom.service.MisylSaleOrderComputeServiceImpl;
 import com.axelor.apps.misyl.custom.service.MisylSaleOrderLineServiceImpl;
 import com.axelor.apps.misyl.custom.service.MisylSaleOrderMarginServiceImpl;
+import com.axelor.apps.misyl.custom.service.MisylSaleOrderServiceImpl;
 import com.axelor.apps.sale.service.saleorder.SaleOrderMarginServiceImpl;
+import com.axelor.apps.sale.service.saleorder.SaleOrderServiceImpl;
 import com.axelor.apps.supplychain.service.SaleOrderComputeServiceSupplychainImpl;
 import com.axelor.apps.supplychain.service.SaleOrderLineServiceSupplyChainImpl;
 
@@ -33,5 +35,6 @@ public class MisylCustomModule extends AxelorModule {
     	bind(SaleOrderLineServiceSupplyChainImpl.class).to(MisylSaleOrderLineServiceImpl.class);
     	bind(SaleOrderComputeServiceSupplychainImpl.class).to(MisylSaleOrderComputeServiceImpl.class);
     	bind(SaleOrderMarginServiceImpl.class).to(MisylSaleOrderMarginServiceImpl.class);
+    	bind(SaleOrderServiceImpl.class).to(MisylSaleOrderServiceImpl.class);
     }
 }
