@@ -7,6 +7,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.axelor.apps.misyl.custom.service.MisylSaleOrderServiceImpl;
 import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
@@ -65,11 +66,14 @@ public class MisylSaleOrderController extends SaleOrderController{
 	  public void exportSaleOrder(
 	      ActionRequest request, ActionResponse response, boolean proforma, String format) {
 	    try {
+	    	
+	    	logger.debug("Custom Controller");
+	    	
 	      SaleOrder saleOrder = request.getContext().asType(SaleOrder.class);
 
 	      String language = ReportSettings.getPrintingLocale(saleOrder.getClientPartner());
 
-	      SaleOrderService saleOrderService = Beans.get(SaleOrderService.class);
+	      MisylSaleOrderServiceImpl saleOrderService = Beans.get(MisylSaleOrderServiceImpl.class);
 
 	      String name = saleOrderService.getFileName(saleOrder);
 

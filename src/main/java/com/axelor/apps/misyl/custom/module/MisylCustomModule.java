@@ -35,6 +35,6 @@ public class MisylCustomModule extends AxelorModule {
     	bind(SaleOrderLineServiceSupplyChainImpl.class).to(MisylSaleOrderLineServiceImpl.class);
     	bind(SaleOrderComputeServiceSupplychainImpl.class).to(MisylSaleOrderComputeServiceImpl.class);
     	bind(SaleOrderMarginServiceImpl.class).to(MisylSaleOrderMarginServiceImpl.class);
-    	bind(SaleOrderServiceImpl.class).to(MisylSaleOrderServiceImpl.class);
+    	//bind(SaleOrderServiceImpl.class).to(MisylSaleOrderServiceImpl.class);
     }
 }
