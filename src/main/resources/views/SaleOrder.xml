@@ -36,13 +36,27 @@
 		</menu>
 	  </menubar>
 	    
-	  <panel name="main" title="Infos Générales">
+	  <panel name="main" title="Infos Générales" showIf="!$isSimplified">
+    	<field name="clientPartner" onChange="action-sale-order-group-client-partner-change,action-sale-order-record-compute-end-of-validity-date"
+			   onSelect="action-set-client-partner-domain" form-view="partner-form" grid-view="partner-grid" 
+			   readonlyIf="saleOrderLineList.length > 0 || statusSelect &gt;= 2"
+			   colSpan="4"/>
+ 	      	<field name="contactPartner" onChange="action-record-so-contact-partner-change" 
+ 	      		   onSelect="action-sale-order-domain-on-contact-partner" domain="self.isContact = true" 
+ 	      		   form-view="partner-contact-form" grid-view="partner-contact-grid"
+ 	      		   colspan="4"/>
+  		<field name="$isSimplified" colSpan="4" widget="InlineCheckbox" title="Vue détaillée"></field>
+	 </panel> <!-- main simplifié -->
+
+
+	  <panel name="main" title="Infos Générales" showIf="$isSimplified">
 	  	<panel colSpan="6" title="Informations Devis">
 			<field name="statusSelect" showTitle="false" widget="NavSelect" colSpan="12"/>
 			<field name="saleOrderSeq" colSpan="3" css="label-bold bold red" title="Numéro"/>
 	  		<field name="versionNumber" colSpan="3" css="label-bold bold red" title="Version" if="__config__.app.getApp('sale').getManageSaleOrderVersion()"/>  	
 	  		<field name="currency" colSpan="3" canEdit="false"  form-view="currency-form" grid-view="currency-grid" readonlyIf="statusSelect &gt;= 2"/>
         	<field name="company"  colSpan="3" canEdit="false" widget="SuggestBox" onChange="action-sale-group-onchange-company" form-view="company-form" grid-view="company-grid" readonlyIf="statusSelect == 3 || clientPartner != null" />
+	  		<field name="$isSimplified" colSpan="4" widget="InlineCheckbox" title="Vue détaillée"></field>
 	  	</panel>
 	  	<panel colSpan="6" title="Infos Clients">
 	    	<field name="clientPartner" onChange="action-sale-order-group-client-partner-change,action-sale-order-record-compute-end-of-validity-date"
@@ -79,7 +93,7 @@
       	  <field name="externalReference"/>
 	    </panel>	
 	  
-	 </panel> <!-- main -->
+	 </panel> <!-- main détaillé -->
 	 
 	 <panel id="ms-saleorder-detail" name="detail">
 		<panel-related field="saleOrderLineList" colSpan="12" onChange= "action-sale-order-line-change-group"
@@ -122,7 +136,7 @@
 	  </panel-mail>
 	</form>
 
-	<action-method name="ms-action-sale-order-method-finalize-quotation">
+	<action-method name="ms-action-sale-order-method-show-sale-order">
 		<call class="com.axelor.apps.misyl.custom.web.MisylSaleOrderController" method="showSaleOrder"/>
 	</action-method>
 	<action-method name="ms-action-sale-order-method-print-proforma-invoice">

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
+  
+  <module name="sale" package="com.axelor.apps.sale.db" />
+  
+  <entity name="SaleOrder" lang="java">
+	<!-- 
+		Total Brut : Montant Hors Taxe avec remise mais sans EcoTax 
+		Total Eco Taxe : Montant total EcoTax
+	-->
+	<decimal name="exTaxTotalPrimary" title="Total Brut"/>
+  	<decimal name="exTaxTotalEcoTax" title="Total Eco Taxe"/>
+  	
+  </entity>
+  
+</domain-models>
