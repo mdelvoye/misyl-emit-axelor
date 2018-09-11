@@ -17,9 +17,9 @@
 		onNew="action-group-sale-saleorder-onnew" onLoad="action-group-sale-saleorder-onload">
 	  <menubar>
 	  	<menu title="Reports">
-	  		<item action="save,action-sale-order-method-show-sale-order"
+	  		<item action="save,ms-action-sale-order-method-show-sale-order"
 	  		 	title="Print" hideIf="clientPartner == null"/>
-	  		<item action="save,action-sale-order-method-print-proforma-invoice"
+	  		<item action="save,ms-action-sale-order-method-print-proforma-invoice"
 	  			title="Print proforma invoice" hideIf="clientPartner == null"/>
 	  		<item action="save,action-sale-order-method-export-sale-order-excel"
 	  			title="Excel Export" hideIf="clientPartner == null"/>
@@ -129,11 +129,18 @@
                     ]]>
                 </viewer>
             </field>
-	 </panel> 
-	 
+	 </panel>
+	 <panel-mail>
+		  <mail-messages limit="4" />
+		  <mail-followers />
+	  </panel-mail>
 	</form>
 
-
-
+	<action-method name="ms-action-sale-order-method-show-sale-order">
+		<call class="com.axelor.apps.misyl.custom.web.MisylSaleOrderController" method="showSaleOrder"/>
+	</action-method>
+	<action-method name="ms-action-sale-order-method-print-proforma-invoice">
+		<call class="com.axelor.apps.misyl.custom.web.MisylSaleOrderController" method="printProformaInvoice"/>
+	</action-method>
 	
 </object-views>

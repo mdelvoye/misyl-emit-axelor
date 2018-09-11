@@ -59,5 +59,10 @@
 	
 	
 
+	<menuitem name="general-dashboard" parent="sc-root-general" title="Dashboard"  action="ms.general.dashboard" order="4"/>
+	<action-view name="ms.general.dashboard" model="saleman.dashboard.view.sample" title="Dashboard">
+		<view type="dashboard" name="sale.saleman.dashboard.sample.1" />
+	</action-view>
+	
 </object-views>
 	

@@ -26,43 +26,44 @@ import com.axelor.apps.sale.service.saleorder.SaleOrderMarginServiceImpl;
 
 
 public class MisylSaleOrderMarginServiceImpl extends SaleOrderMarginServiceImpl {
-	
-	  @Override
-	  public void computeMarginSaleOrder(SaleOrder saleOrder) {
-		  if (saleOrder.getSaleOrderLineList() == null) {
 
-		      saleOrder.setTotalCostPrice(BigDecimal.ZERO);
-		      saleOrder.setTotalGrossMargin(BigDecimal.ZERO);
-		      saleOrder.setMarginRate(BigDecimal.ZERO);
-		    } else {
+	@Override
+	public void computeMarginSaleOrder(SaleOrder saleOrder) {
+		if (saleOrder.getSaleOrderLineList() == null) {
 
-		      BigDecimal totalCostPrice = BigDecimal.ZERO;
-		      BigDecimal exTaxTotalPrimary = BigDecimal.ZERO;
-		      
-		      BigDecimal totalGrossMargin = BigDecimal.ZERO;
-		      BigDecimal marginRate = BigDecimal.ZERO;
-		      for (SaleOrderLine saleOrderLineList : saleOrder.getSaleOrderLineList()) {
-		    	  totalCostPrice = totalCostPrice.add(saleOrderLineList.getPurchasePrice().multiply(saleOrderLineList.getQty()));
-		    	  exTaxTotalPrimary = exTaxTotalPrimary.add(saleOrderLineList.getExTaxTotalPrimary());
-		    	  totalGrossMargin = totalGrossMargin.add(exTaxTotalPrimary).add(totalCostPrice.negate());
-		      }
-		      saleOrder.setTotalCostPrice(totalCostPrice);
-		      saleOrder.setTotalGrossMargin(totalGrossMargin);
-		      
-		      if (totalCostPrice.compareTo(BigDecimal.ZERO)!=0) {
-		    	  marginRate = totalGrossMargin
-		                  		.divide(totalCostPrice, RoundingMode.HALF_EVEN)
-		                  		.multiply(new BigDecimal(100));
-		      }
-		      
-		      saleOrder.setMarginRate(marginRate);
-		    }
+			saleOrder.setTotalCostPrice(BigDecimal.ZERO);
+			saleOrder.setTotalGrossMargin(BigDecimal.ZERO);
+			saleOrder.setMarginRate(BigDecimal.ZERO);
+		} else {
+
+			BigDecimal totalCostPrice = BigDecimal.ZERO;
+			BigDecimal exTaxTotalPrimary = BigDecimal.ZERO;
+
+			BigDecimal totalGrossMargin = BigDecimal.ZERO;
+			BigDecimal marginRate = BigDecimal.ZERO;
+			for (SaleOrderLine saleOrderLineList : saleOrder.getSaleOrderLineList()) {
+				totalCostPrice = totalCostPrice.add(saleOrderLineList.getPurchasePrice().multiply(saleOrderLineList.getQty()));
+				exTaxTotalPrimary = exTaxTotalPrimary.add(saleOrderLineList.getExTaxTotalPrimary());
+
+			}
+			saleOrder.setTotalCostPrice(totalCostPrice);
+			totalGrossMargin = exTaxTotalPrimary.subtract(totalCostPrice);
+			saleOrder.setTotalGrossMargin(totalGrossMargin);
+
+			if (totalCostPrice.compareTo(BigDecimal.ZERO)!=0) {
+				marginRate = totalGrossMargin
+						.divide(totalCostPrice, RoundingMode.HALF_EVEN)
+						.multiply(new BigDecimal(100));
+			}
+
+			saleOrder.setMarginRate(marginRate);
+		}
 	}
-		
 
-  
-	
-/*
+
+
+
+	/*
   @Override
   public void computeMarginSaleOrder(SaleOrder saleOrder) {
 
