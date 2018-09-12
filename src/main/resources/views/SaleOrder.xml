@@ -77,6 +77,22 @@
 					widget="SuggestBox" onChange="action-sale-group-onchange-company"
 					form-view="company-form" grid-view="company-grid"
 					readonlyIf="statusSelect == 3 || clientPartner != null" />
+				<field name="creationDate" readonlyIf="statusSelect != 1" colSpan="3" onChange="action-sale-order-record-compute-end-of-validity-date"/>
+				<field name="duration" widget="SuggestBox" canNew="true" colSpan="3" onChange="action-sale-order-record-compute-end-of-validity-date" readonlyIf="statusSelect &gt;= 2"/>
+			    <field name="endOfValidityDate" colSpan="3" readonly="true">
+			    	<hilite if="$moment().diff(endOfValidityDate, 'days') &gt; 0 &amp;&amp; statusSelect != 3" color="danger"/>
+			    </field>
+			    <field name="confirmedByUser" canNew="false" canEdit="false" canView="false" readonly="true" colSpan="3" showIf="statusSelect == 3" form-view="user-form" grid-view="user-grid"/>
+			    <field name="confirmationDate" readonly="true" colSpan="3" showIf="statusSelect == 3"/>
+			    <field name="orderDate" colSpan="3" showIf="statusSelect == 3"/>
+			    <field name="orderNumber" colSpan="3" showIf="statusSelect == 3"/>
+			    <field name="shipmentDate" colSpan="3" showIf="statusSelect == 3" if-module="axelor-supplychain"  if="__config__.app.isApp('supplychain')" />
+			    <field name="expectedRealisationDate" colSpan="3" if="__config__.app.isApp('supplychain') &amp;&amp; !__config__.app.getApp('supplychain').getAllowTimetableInvoicing()"/>
+		        <field name="cancelReason" hidden="true"/>
+				<field name="cancelReasonStr" title="Cancel Reason" readonly="true" colSpan="12" css="red" hidden="true" showIf="cancelReason != null &amp;&amp; cancelReasonStr != null">
+					<viewer><![CDATA[{{record.cancelReasonStr}}]]></viewer>
+				</field>
+		<field name="standardDelay" readonly="true" if-module="axelor-supplychain"   if="__config__.app.isApp('supplychain')" hidden="true" showIf="standardDelay &gt; 0" />
 			</panel>
 			<panel colSpan="6" title="Infos Clients">
 				<field name="clientPartner"
