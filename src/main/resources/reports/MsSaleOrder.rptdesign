@@ -7378,7 +7378,7 @@ from sale_sale_order
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <property name="topMargin">0.13541666666666666in</property>
+            <property name="topMargin">0in</property>
             <property name="bottomMargin">0.10416666666666667in</property>
             <page-footer>
                 <grid id="4875">
@@ -7461,7 +7461,7 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                 <property name="borderBottomColor">#A4A4A4</property>
                 <property name="borderBottomStyle">solid</property>
                 <property name="borderBottomWidth">thin</property>
-                <property name="height">1.7395833333333333in</property>
+                <property name="height">1.65625in</property>
                 <cell id="4534"/>
                 <cell id="4535">
                     <image id="78">
@@ -7474,11 +7474,9 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                 <cell id="4536"/>
             </row>
             <row id="4537">
-                <property name="height">8px</property>
+                <property name="height">6px</property>
                 <cell id="4538"/>
-                <cell id="4539">
-                    <label id="10057"/>
-                </cell>
+                <cell id="4539"/>
                 <cell id="4540"/>
             </row>
             <row id="4541">
@@ -7486,7 +7484,7 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                     <property name="colSpan">3</property>
                     <property name="rowSpan">1</property>
                     <text id="4551">
-                        <property name="fontSize">11pt</property>
+                        <property name="fontSize">14pt</property>
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">center</property>
                         <property name="dataSet">SaleOrderDS1</property>
@@ -7525,10 +7523,9 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                 </cell>
             </row>
             <row id="4553">
+                <property name="height">6px</property>
                 <cell id="4554"/>
-                <cell id="4555">
-                    <label id="10058"/>
-                </cell>
+                <cell id="4555"/>
                 <cell id="4556"/>
             </row>
             <row id="4557">
@@ -7548,10 +7545,10 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                         <property name="borderTopColor">#00C4C4</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <property name="marginTop">2pt</property>
-                        <property name="marginLeft">2pt</property>
-                        <property name="marginBottom">2pt</property>
-                        <property name="marginRight">2pt</property>
+                        <property name="marginTop">0pt</property>
+                        <property name="marginLeft">0pt</property>
+                        <property name="marginBottom">0pt</property>
+                        <property name="marginRight">0pt</property>
                         <property name="dataSet">SaleOrderDS1</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -7600,7 +7597,6 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                         </column>
                         <row id="4566">
                             <property name="verticalAlign">middle</property>
-                            <property name="height">26px</property>
                             <cell id="4567">
                                 <label id="301">
                                     <property name="fontSize">9pt</property>
@@ -7638,7 +7634,6 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                             </cell>
                         </row>
                         <row id="4571">
-                            <property name="height">26px</property>
                             <cell id="4572">
                                 <property name="verticalAlign">middle</property>
                                 <label id="302">
@@ -7677,7 +7672,6 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                         </row>
                         <row id="4576">
                             <property name="verticalAlign">middle</property>
-                            <property name="height">26px</property>
                             <cell id="4577">
                                 <label id="304">
                                     <property name="fontSize">9pt</property>
@@ -7696,7 +7690,6 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                         </row>
                         <row id="4581">
                             <property name="verticalAlign">middle</property>
-                            <property name="height">26px</property>
                             <cell id="4582">
                                 <label id="305">
                                     <property name="fontSize">9pt</property>
@@ -7715,7 +7708,6 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                         </row>
                         <row id="4586">
                             <property name="verticalAlign">middle</property>
-                            <property name="height">26px</property>
                             <cell id="4587">
                                 <label id="306">
                                     <property name="fontSize">9pt</property>
@@ -7734,7 +7726,6 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                         </row>
                         <row id="4591">
                             <property name="verticalAlign">middle</property>
-                            <property name="height">26px</property>
                             <cell id="4592">
                                 <label id="307">
                                     <property name="fontSize">9pt</property>
@@ -7753,7 +7744,6 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                         </row>
                         <row id="4596">
                             <property name="verticalAlign">middle</property>
-                            <property name="height">26px</property>
                             <cell id="4597">
                                 <label id="303">
                                     <property name="fontSize">9pt</property>
@@ -7776,11 +7766,9 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                 </cell>
             </row>
             <row id="4601">
-                <property name="height">0.23958333333333334in</property>
+                <property name="height">6px</property>
                 <cell id="4602"/>
-                <cell id="4603">
-                    <label id="10059"/>
-                </cell>
+                <cell id="4603"/>
                 <cell id="4604"/>
             </row>
             <row id="4605">
@@ -7794,10 +7782,9 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                 </cell>
             </row>
             <row id="10042">
+                <property name="height">6px</property>
                 <cell id="10043"/>
-                <cell id="10044">
-                    <label id="10061"/>
-                </cell>
+                <cell id="10044"/>
                 <cell id="10045"/>
             </row>
             <row id="4609">
@@ -8175,6 +8162,7 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                             </list-property>
                             <header>
                                 <row id="4804">
+                                    <property name="verticalAlign">middle</property>
                                     <cell id="4805">
                                         <property name="borderLeftStyle">solid</property>
                                         <property name="borderLeftWidth">thin</property>
@@ -8424,10 +8412,9 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                 </cell>
             </row>
             <row id="4834">
+                <property name="height">6px</property>
                 <cell id="4835"/>
-                <cell id="4836">
-                    <label id="10062"/>
-                </cell>
+                <cell id="4836"/>
                 <cell id="4837"/>
             </row>
             <row id="4838">
@@ -8650,10 +8637,9 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                 </cell>
             </row>
             <row id="10047">
+                <property name="height">6px</property>
                 <cell id="10048"/>
-                <cell id="10049">
-                    <label id="10064"/>
-                </cell>
+                <cell id="10049"/>
                 <cell id="10050"/>
             </row>
             <row id="4850">
@@ -8668,7 +8654,6 @@ EMIT - S.A.S au capital de 10,000 € - RCS : Lille Metropole 823 332 473 - N° 
                 </cell>
             </row>
         </grid>
-        <label id="10063"/>
     </body>
     <list-property name="images">
         <structure>
